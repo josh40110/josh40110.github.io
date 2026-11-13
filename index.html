@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>josh40110 作品集</title>
+<meta name="description" content="三個資料視覺化作品：台北捷運 3D 跑圖、台股科技股籌碼表、GitHub 風雲榜。">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f6f4ef; --ink:#1b1d22; --mute:#5f636c; --line:#dcd8cf; --card:#fff; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14161b; --ink:#ecebe7; --mute:#9a9ea7; --line:#2b2f37; --card:#1b1e24; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC",system-ui,sans-serif; line-height:1.6; }
+  main { max-width:880px; margin:0 auto; padding:72px 20px 56px; }
+  h1 { font-size:clamp(28px,5vw,40px); font-weight:900; margin:0 0 8px; letter-spacing:.02em; }
+  .lead { color:var(--mute); margin:0 0 40px; }
+  ul { list-style:none; margin:0; padding:0; display:grid; gap:16px; }
+  a.card { display:grid; grid-template-columns:6px 1fr auto; gap:20px; align-items:center; padding:22px 24px 22px 0;
+    background:var(--card); border:1px solid var(--line); border-radius:14px; color:inherit; text-decoration:none;
+    transition:transform .15s ease, border-color .15s ease; overflow:hidden; }
+  a.card:hover, a.card:focus-visible { transform:translateY(-2px); border-color:var(--accent); outline:none; }
+  .bar { align-self:stretch; background:var(--accent); }
+  h2 { font-size:20px; margin:0 0 4px; }
+  p { margin:0; color:var(--mute); font-size:15px; }
+  .tags { margin-top:10px; font-size:13px; color:var(--mute); }
+  .go { font-size:22px; color:var(--accent); }
+  footer { margin-top:48px; font-size:13px; color:var(--mute); }
+  @media (max-width:520px) { a.card { grid-template-columns:6px 1fr; } .go { display:none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>作品集</h1>
+  <p class="lead">把公開資料做成看得懂、玩得動的網頁。</p>
+  <ul>
+    <li><a class="card" href="mrt/" style="--accent:#E3002C">
+      <span class="bar"></span>
+      <div><h2>北捷跑圖</h2>
+        <p>台北捷運列車照官方表定時刻，在 3D 城市模型上即時跑動：來車看板、到站推估、整天時刻表，晝夜光影跟著時間變。</p>
+        <div class="tags">three.js · 3D · 時刻表模擬</div></div>
+      <span class="go" aria-hidden="true">→</span></a></li>
+    <li><a class="card" href="tw-tech/" style="--accent:#2F8F5B">
+      <span class="bar"></span>
+      <div><h2>台股科技股 籌碼 Screener</h2>
+        <p>上市科技股的籌碼表：三大法人近 3 日買賣超、連買天數、題材熱度，搭配均線、KD、營收與本益比一頁排序篩選，另附 ETF Alpha／Beta 掃描。</p>
+        <div class="tags">台股 · 籌碼分析 · 每日更新</div></div>
+      <span class="go" aria-hidden="true">→</span></a></li>
+    <li><a class="card" href="github-rank/" style="--accent:#6E56CF">
+      <span class="bar"></span>
+      <div><h2>GitHub 風雲榜</h2>
+        <p>GitHub 最熱門的 1,000 個專案、最新竄紅專案與開發者排行，每個專案附中文名稱和一句話說明。</p>
+        <div class="tags">GitHub · 排行榜 · 中文導讀</div></div>
+      <span class="go" aria-hidden="true">→</span></a></li>
+  </ul>
+  <footer>資料僅供參考，不構成投資建議。</footer>
+</main>
+</body>
+</html>

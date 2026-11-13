@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>北捷跑圖</title>
+<meta name="description" content="台北捷運列車照官方表定時刻在 3D 城市模型上跑：來車看板、起訖站到站推估、整天時刻表。">
+<meta name="theme-color" content="#1A2540">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div class="app" id="app">
+  <canvas id="cv" aria-label="台北捷運 3D 城市模型，列車照表定時刻移動"></canvas>
+  <div id="labels" aria-hidden="true"><div id="trainTag" class="train-tag" hidden></div></div>
+  <div id="lmCard" class="lm-card" role="dialog" aria-live="polite" hidden></div>
+
+  <div class="clock-wrap">
+    <button type="button" class="clock" id="clock" aria-expanded="false" aria-controls="speeds">
+      <time id="clkTime">--:--</time>
+      <span class="clock-meta"><span id="clkDay">平日</span><span id="clkSrc">表定時刻，非即時</span></span>
+    </button>
+    <div class="speeds" id="speeds" role="group" aria-label="播放速度" hidden>
+      <button type="button" data-speed="1">1×</button>
+      <button type="button" data-speed="10">10×</button>
+      <button type="button" data-speed="60">60×</button>
+      <button type="button" data-speed="600">600×</button>
+      <button type="button" id="btnNow">回到現在</button>
+    </div>
+  </div>
+
+  <div class="tools" role="group" aria-label="地圖視角">
+    <button type="button" id="zCity">市區</button>
+    <button type="button" id="zFit">全線</button>
+    <button type="button" id="zLines" aria-expanded="false" aria-controls="lineFilter">路線</button>
+  </div>
+  <div class="line-filter" id="lineFilter" role="group" aria-label="顯示哪些路線" hidden></div>
+
+  <section class="sheet" id="sheet" aria-label="資訊面板">
+    <button type="button" class="grip" id="grip" aria-expanded="false" aria-controls="sheetBody">
+      <span class="grip-bar" aria-hidden="true"></span><span class="sr">展開或收合資訊面板</span>
+    </button>
+
+    <div class="view" id="stationView">
+      <header class="plate">
+        <div class="plate-top">
+          <div class="codes" id="plCodes"></div>
+          <div class="plate-name"><h1 id="plName"></h1><p id="plEn"></p></div>
+        </div>
+        <div class="plate-nav">
+          <button type="button" id="plPrev"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span></button>
+          <button type="button" id="plNext"><span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="tabs" role="tablist" aria-label="面板內容">
+          <button type="button" role="tab" id="tabBoard" aria-selected="true" aria-controls="pBoard">來車</button>
+          <button type="button" role="tab" id="tabTrip" aria-selected="false" aria-controls="pTrip">起訖站</button>
+          <button type="button" role="tab" id="tabTT" aria-selected="false" aria-controls="pTT">時刻表</button>
+        </div>
+      </header>
+
+      <div class="sheet-body" id="sheetBody">
+        <div role="tabpanel" id="pBoard" aria-labelledby="tabBoard">
+          <div class="od-quick">
+            <button type="button" id="setO">設為起站</button>
+            <button type="button" id="setD">設為訖站</button>
+          </div>
+          <div id="board"></div>
+        </div>
+
+        <div role="tabpanel" id="pTrip" aria-labelledby="tabTrip" hidden>
+          <div class="od">
+            <button type="button" class="od-btn" id="pickO"><span class="lbl">起站</span><span class="val" id="pickOVal"></span></button>
+            <button type="button" class="swap" id="swap" aria-label="對調起訖站"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12m0 0-3-3m3 3 3-3M14 16V4m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="od-btn" id="pickD"><span class="lbl">訖站</span><span class="val" id="pickDVal"></span></button>
+          </div>
+          <div id="tripOut"></div>
+          <details class="allday" id="allday">
+            <summary>今天所有班次 <span id="alldayDay"></span></summary>
+            <div id="alldayOut"></div>
+          </details>
+        </div>
+
+        <div role="tabpanel" id="pTT" aria-labelledby="tabTT" hidden>
+          <div class="seg" id="ttLines" role="group" aria-label="路線"></div>
+          <div class="seg" id="ttDay" role="group" aria-label="日別">
+            <button type="button" data-day="weekday">平日</button><button type="button" data-day="sat">週六</button><button type="button" data-day="sun">週日及假日</button>
+          </div>
+          <div class="seg seg-wrap" id="ttDirs" role="group" aria-label="方向"></div>
+          <div id="ttOut"></div>
+        </div>
+
+        <p class="src" id="srcNote"></p>
+      </div>
+    </div>
+
+    <div class="view" id="followView" hidden>
+      <header class="fw-head">
+        <span class="fw-chip" id="fwLine"></span>
+        <div class="fw-title"><h2 id="fwDest"></h2><p id="fwSub"></p></div>
+        <button type="button" class="fw-close" id="fwClose" aria-label="停止跟車"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </header>
+      <div class="fw-prog"><span id="fwFrom"></span><span class="bar"><i id="fwBar"></i></span><span id="fwTo"></span></div>
+      <p class="fw-next" id="fwNext"></p>
+      <div class="fw-actions"><button type="button" class="fw-cab" id="fwCab" aria-pressed="false">車頭視角</button></div>
+      <div class="sheet-body fw-body">
+        <dl class="fw-stats">
+          <div><dt>速度（推估）</dt><dd id="fwSpd"></dd></div>
+          <div><dt>抵達終點</dt><dd id="fwEnd"></dd></div>
+        </dl>
+        <h3 class="fw-h">接下來停靠</h3>
+        <ol class="fw-stops" id="fwStops"></ol>
+      </div>
+    </div>
+  </section>
+
+  <div class="picker-back" id="picker" hidden>
+    <div class="picker" role="dialog" aria-modal="true" aria-labelledby="pkTitle">
+      <div class="pk-head">
+        <h2 id="pkTitle">選擇起站</h2>
+        <button type="button" class="pk-x" id="pkClose" aria-label="關閉"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+      <input type="search" id="pkSearch" placeholder="搜尋站名、英文或代碼（例如 BL12）" autocomplete="off" aria-label="搜尋車站">
+      <div class="seg seg-wrap" id="pkLines" role="group" aria-label="篩選路線"></div>
+      <div class="pk-list" id="pkList"></div>
+    </div>
+  </div>
+
+  <p class="boot" id="boot">載入路網中</p>
+</div>
+
+<script src="core.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
