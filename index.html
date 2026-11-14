@@ -3,59 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>josh40110 作品集</title>
-<meta name="description" content="三個資料視覺化作品：台北捷運 3D 跑圖、台股科技股籌碼表、GitHub 風雲榜。">
-<link rel="icon" href="data:,">
+<title>作品集</title>
+<meta name="description" content="三個把公開資料做成可操作網頁的作品：台北捷運 3D 跑圖、台股科技股籌碼 Screener、GitHub 風雲榜。">
+<meta name="theme-color" content="#1d3a63">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 20'%3E%3Crect width='32' height='20' rx='2' fill='%23f6dfe0'/%3E%3Ccircle cx='32' cy='10' r='4' fill='%231d3a63'/%3E%3Cpath d='M23 1v18' stroke='%23c23a2b' stroke-dasharray='2 2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-<style>
-  :root { --bg:#f6f4ef; --ink:#1b1d22; --mute:#5f636c; --line:#dcd8cf; --card:#fff; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#14161b; --ink:#ecebe7; --mute:#9a9ea7; --line:#2b2f37; --card:#1b1e24; } }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC",system-ui,sans-serif; line-height:1.6; }
-  main { max-width:880px; margin:0 auto; padding:72px 20px 56px; }
-  h1 { font-size:clamp(28px,5vw,40px); font-weight:900; margin:0 0 8px; letter-spacing:.02em; }
-  .lead { color:var(--mute); margin:0 0 40px; }
-  ul { list-style:none; margin:0; padding:0; display:grid; gap:16px; }
-  a.card { display:grid; grid-template-columns:6px 1fr auto; gap:20px; align-items:center; padding:22px 24px 22px 0;
-    background:var(--card); border:1px solid var(--line); border-radius:14px; color:inherit; text-decoration:none;
-    transition:transform .15s ease, border-color .15s ease; overflow:hidden; }
-  a.card:hover, a.card:focus-visible { transform:translateY(-2px); border-color:var(--accent); outline:none; }
-  .bar { align-self:stretch; background:var(--accent); }
-  h2 { font-size:20px; margin:0 0 4px; }
-  p { margin:0; color:var(--mute); font-size:15px; }
-  .tags { margin-top:10px; font-size:13px; color:var(--mute); }
-  .go { font-size:22px; color:var(--accent); }
-  footer { margin-top:48px; font-size:13px; color:var(--mute); }
-  @media (max-width:520px) { a.card { grid-template-columns:6px 1fr; } .go { display:none; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>:root{color-scheme:light;--ground:oklch(34% .085 255);--ground-deep:oklch(29% .08 255);--on-ground:oklch(97% .01 250);--on-ground-mute:oklch(82% .04 250);--ink:oklch(23% .025 260);--ink-soft:oklch(38% .03 260);--stamp:oklch(53% .19 29);--stock-1:oklch(93.5% .035 15);--stock-2:oklch(93.5% .04 150);--stock-3:oklch(94.5% .055 95);--serif:"Noto Serif TC", "Songti TC", serif;--sans:"Noto Sans TC", "PingFang TC", system-ui, sans-serif;--mono:"JetBrains Mono", ui-monospace, monospace}*{box-sizing:border-box}html{background:var(--ground)}body{min-height:100vh;color:var(--on-ground);font-family:var(--sans);background:var(--ground);margin:0;line-height:1.65}::selection{background:var(--stamp);color:#fff}:focus-visible{outline:3px solid var(--stamp);outline-offset:5px}main{max-width:1120px;margin:0 auto;padding:clamp(40px,7vw,88px) 20px 72px}header{grid-template-columns:auto 1fr;align-items:end;gap:8px 40px;margin-bottom:clamp(32px,5vw,56px);display:grid}h1{font-family:var(--serif);letter-spacing:.04em;margin:0;font-size:clamp(44px,7vw,84px);font-weight:900;line-height:1}.lead{max-width:34em;color:var(--on-ground-mute);margin:0;padding-bottom:6px;font-size:clamp(15px,1.6vw,17px)}.lead b{color:var(--on-ground);font-weight:500}ol.tickets{gap:clamp(28px,4vw,44px);margin:0;padding:0;list-style:none;display:grid}a.ticket{--stock:var(--stock-1);color:var(--ink);background-color:var(--stock);background-image:var(--guilloche);transform:rotate(var(--tilt,0deg));border-radius:7px;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr) 104px;text-decoration:none;transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s cubic-bezier(.16,1,.3,1);display:grid;position:relative;box-shadow:inset 0 1px oklch(100% 0 0/.5),0 18px 34px -14px oklch(12% .05 260/.65),0 3px 8px -2px oklch(12% .05 260/.35)}li:first-child a.ticket{--tilt:-.5deg}li:nth-child(2) a.ticket{--tilt:.45deg;--stock:var(--stock-2)}li:nth-child(3) a.ticket{--tilt:-.3deg;--stock:var(--stock-3)}a.ticket{--guilloche:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' viewBox='0 0 120 24'%3E%3Cg fill='none' stroke='%23203a5c' stroke-opacity='.07' stroke-width='.8'%3E%3Cpath d='M0 12c10-10 20-10 30 0s20 10 30 0 20-10 30 0 20 10 30 0'/%3E%3Cpath d='M0 12c10 10 20 10 30 0s20-10 30 0 20 10 30 0 20-10 30 0'/%3E%3Cpath d='M0 6c15 6 15 6 30 0s15-6 30 0 15 6 30 0 15-6 30 0'/%3E%3C/g%3E%3C/svg%3E")}.face{grid-template-rows:auto 1fr auto;gap:18px;min-width:0;padding:26px 28px 24px;display:grid}.meta{font-family:var(--mono);letter-spacing:.06em;color:var(--ink-soft);font-variant-numeric:tabular-nums;justify-content:space-between;gap:12px;font-size:12.5px;font-weight:500;display:flex}.meta .no{color:var(--stamp);font-weight:700}.route{grid-template-columns:26px 1fr;align-content:center;column-gap:12px;display:grid}.route .k{border:1.5px solid var(--ink);width:26px;height:26px;font-family:var(--serif);border-radius:50%;grid-row:span 1;place-items:center;font-size:13px;font-weight:900;line-height:1;display:grid}.route .from{color:var(--ink-soft);align-self:center;margin:0;font-size:15px}.route .line{border-left:1.5px dashed var(--ink-soft);grid-column:1;justify-self:center;width:0;height:26px;margin:4px 0}.route h2{font-family:var(--serif);letter-spacing:.02em;text-wrap:balance;align-self:center;margin:0;font-size:clamp(28px,3.6vw,42px);font-weight:900;line-height:1.12}.desc{color:var(--ink-soft);max-width:30em;margin:0;font-size:15px}.fare{border-top:1.5px solid var(--ink);grid-template-columns:auto 1fr;font-size:13px;display:grid}.fare dt,.fare dd{margin:0;padding:7px 0 0}.fare dt{letter-spacing:.15em;padding-right:14px;font-weight:700}.fare dd{color:var(--ink-soft)}.shot{min-width:0;margin:18px 0;position:relative}.shot img{aspect-ratio:16/10;object-fit:cover;object-position:left top;background:var(--ink);border-radius:3px;width:100%;height:100%;display:block;box-shadow:0 0 0 1px oklch(23% .025 260/.25),0 6px 14px -8px oklch(15% .04 260/.5)}.stub{align-content:center;place-items:center;gap:14px;margin-left:18px;display:grid;position:relative}.stub:after{content:"";background:var(--ground);border-radius:50%;width:30px;height:30px;transition:transform .35s cubic-bezier(.16,1,.3,1);position:absolute;top:calc(50% - 15px);right:-15px;transform:scale(0);box-shadow:inset 2px 0 4px oklch(12% .05 260/.45)}.stub:before{content:"";background:radial-gradient(circle at center, var(--ground) 2.6px, transparent 3px) 0 0 / 8px 11px repeat-y;width:8px;position:absolute;top:4px;bottom:4px;left:-4px}.stub .go{writing-mode:vertical-rl;font-family:var(--serif);letter-spacing:.35em;margin-right:6px;font-size:26px;font-weight:900}.stub svg{width:22px;height:22px;margin-right:6px}.stamp{pointer-events:none;width:104px;height:104px;color:var(--stamp);opacity:0;mix-blend-mode:multiply;transition:opacity .18s ease-out,transform .28s cubic-bezier(.2,1.4,.4,1);position:absolute;bottom:6px;right:118px;transform:rotate(-14deg)scale(1.35)}a.ticket:hover,a.ticket:focus-visible{transform:rotate(0)translateY(-3px);box-shadow:inset 0 1px oklch(100% 0 0/.5),0 26px 44px -16px oklch(12% .05 260/.75),0 4px 10px -2px oklch(12% .05 260/.4)}a.ticket:hover .stub:after,a.ticket:focus-visible .stub:after{transform:scale(1)}a.ticket:hover .stamp,a.ticket:focus-visible .stamp{opacity:.88;transform:rotate(-14deg)scale(1)}footer{color:var(--on-ground-mute);flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:56px;font-size:13px;display:flex}@media (width<=860px){a.ticket{grid-template-columns:1fr;transform:none}.shot{order:-1;margin:14px 14px 0}.face{padding:20px 20px 18px}.stub{grid-auto-flow:column;justify-content:space-between;margin:0;padding:14px 20px 16px}.stub:before{background-repeat:repeat-x;background-size:11px 8px;width:auto;height:8px;inset:-4px 4px auto}.stub:after{inset:auto auto -15px calc(50% - 15px);box-shadow:inset 0 2px 4px oklch(12% .05 260/.45)}.stub .go{writing-mode:horizontal-tb;letter-spacing:.3em;margin:0;font-size:20px}.stub svg{margin:0}.stamp{width:84px;height:84px;bottom:74px;right:20px}header{grid-template-columns:1fr}}@media (prefers-reduced-motion:reduce){a.ticket,.stub:after,.stamp{transition:none}.stamp{transform:rotate(-14deg)}}</style>
 </head>
 <body>
 <main>
-  <h1>作品集</h1>
-  <p class="lead">把公開資料做成看得懂、玩得動的網頁。</p>
-  <ul>
-    <li><a class="card" href="mrt/" style="--accent:#E3002C">
-      <span class="bar"></span>
-      <div><h2>北捷跑圖</h2>
-        <p>台北捷運列車照官方表定時刻，在 3D 城市模型上即時跑動：來車看板、到站推估、整天時刻表，晝夜光影跟著時間變。</p>
-        <div class="tags">three.js · 3D · 時刻表模擬</div></div>
-      <span class="go" aria-hidden="true">→</span></a></li>
-    <li><a class="card" href="tw-tech/" style="--accent:#2F8F5B">
-      <span class="bar"></span>
-      <div><h2>台股科技股 籌碼 Screener</h2>
-        <p>上市科技股的籌碼表：三大法人近 3 日買賣超、連買天數、題材熱度，搭配均線、KD、營收與本益比一頁排序篩選，另附 ETF Alpha／Beta 掃描。</p>
-        <div class="tags">台股 · 籌碼分析 · 每日更新</div></div>
-      <span class="go" aria-hidden="true">→</span></a></li>
-    <li><a class="card" href="github-rank/" style="--accent:#6E56CF">
-      <span class="bar"></span>
-      <div><h2>GitHub 風雲榜</h2>
-        <p>GitHub 最熱門的 1,000 個專案、最新竄紅專案與開發者排行，每個專案附中文名稱和一句話說明。</p>
-        <div class="tags">GitHub · 排行榜 · 中文導讀</div></div>
-      <span class="go" aria-hidden="true">→</span></a></li>
-  </ul>
-  <footer>資料僅供參考，不構成投資建議。</footer>
+  <header>
+    <h1>作品集</h1>
+    <p class="lead">把公開資料做成看得懂、玩得動的網頁。<b>三張票，點一張進站</b>，每個作品都能直接操作。</p>
+  </header>
+
+  <ol class="tickets">
+    <li>
+      <a class="ticket" href="mrt/">
+        <div class="face">
+          <div class="meta"><span class="no">No.0001</span><span>2026.11.14</span></div>
+          <div class="route">
+            <span class="k">起</span><p class="from">交通部 TDX 捷運時刻表</p>
+            <span class="line" aria-hidden="true"></span><span></span>
+            <span class="k">迄</span><h2>北捷跑圖</h2>
+          </div>
+          <div>
+            <p class="desc">列車照官方時刻表，在 3D 城市模型上即時跑動：來車看板、到站推估、整天時刻表，晝夜光影跟著時間變。</p>
+          </div>
+          <dl class="fare"><dt>票價</dt><dd>免費・three.js・3D・時刻表模擬</dd></dl>
+        </div>
+        <div class="shot"><img src="assets/mrt.webp" width="1200" height="750" alt="北捷跑圖畫面：左側台北車站來車看板，右側 3D 台北市區與各捷運路線"></div>
+        <div class="stub"><span class="go">入站</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="50" y="46" text-anchor="middle" font-family="Noto Serif TC, serif" font-weight="900" font-size="20" fill="currentColor">已剪票</text><text x="50" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="10" fill="currentColor">2026.11.14</text></svg>
+      </a>
+    </li>
+    <li>
+      <a class="ticket" href="tw-tech/">
+        <div class="face">
+          <div class="meta"><span class="no">No.0002</span><span>2026.11.14</span></div>
+          <div class="route">
+            <span class="k">起</span><p class="from">FinMind 三大法人買賣超</p>
+            <span class="line" aria-hidden="true"></span><span></span>
+            <span class="k">迄</span><h2>台股科技股<br>籌碼 Screener</h2>
+          </div>
+          <div>
+            <p class="desc">上市科技股的籌碼表：三大法人近 3 日買賣超、連買天數、題材熱度，搭配均線、KD、營收與本益比一頁排序篩選，另附 ETF Alpha／Beta 掃描。</p>
+          </div>
+          <dl class="fare"><dt>票價</dt><dd>免費・籌碼分析・技術指標</dd></dl>
+        </div>
+        <div class="shot"><img src="assets/tw-tech.webp" width="1200" height="750" loading="lazy" alt="台股科技股籌碼 Screener 畫面：各題材三大法人近 3 日買賣超總覽表"></div>
+        <div class="stub"><span class="go">入站</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="50" y="46" text-anchor="middle" font-family="Noto Serif TC, serif" font-weight="900" font-size="20" fill="currentColor">已剪票</text><text x="50" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="10" fill="currentColor">2026.11.14</text></svg>
+      </a>
+    </li>
+    <li>
+      <a class="ticket" href="github-rank/">
+        <div class="face">
+          <div class="meta"><span class="no">No.0003</span><span>2026.11.14</span></div>
+          <div class="route">
+            <span class="k">起</span><p class="from">GitHub 公開專案資料</p>
+            <span class="line" aria-hidden="true"></span><span></span>
+            <span class="k">迄</span><h2>GitHub 風雲榜</h2>
+          </div>
+          <div>
+            <p class="desc">GitHub 最熱門的 1,000 個專案、最新竄紅專案與開發者排行，每個專案附中文名稱和一句話說明。</p>
+          </div>
+          <dl class="fare"><dt>票價</dt><dd>免費・排行榜・中文導讀</dd></dl>
+        </div>
+        <div class="shot"><img src="assets/github-rank.webp" width="1200" height="750" loading="lazy" alt="GitHub 風雲榜畫面：最紅專案排行，每列附中文名稱與一句話說明"></div>
+        <div class="stub"><span class="go">入站</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="50" y="46" text-anchor="middle" font-family="Noto Serif TC, serif" font-weight="900" font-size="20" fill="currentColor">已剪票</text><text x="50" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="10" fill="currentColor">2026.11.14</text></svg>
+      </a>
+    </li>
+  </ol>
+
+  <footer><span>資料僅供參考，不構成投資建議。</span></footer>
 </main>
 </body>
 </html>
